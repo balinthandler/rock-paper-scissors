@@ -25,7 +25,6 @@ function getComputerChoice() {
 }
 
 // Function for getting human choice
-
 function getHumanChoice() {
     return prompt("Rock-Paper-Scissor.. GO!").toLowerCase();
 }
@@ -34,6 +33,7 @@ function getHumanChoice() {
 function playRound(humanChoice, computerChoice) {
     let roundResult = ""
 
+    // CONDITIONALS for round result
     if (humanChoice === "rock") {
         switch (computerChoice) {
             case "rock":
@@ -72,6 +72,7 @@ function playRound(humanChoice, computerChoice) {
         }
     }
 
+    // SHOWS result of the round in console
     switch (roundResult) {
         case "win":
             console.log(`You've won! ${humanChoice} beats ${computerChoice}.`);
