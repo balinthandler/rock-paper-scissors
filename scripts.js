@@ -1,9 +1,26 @@
 
-/* 
-Function for getting a random choice of Rock - Paper - Scissor 
-*/
+
+const handsContainer = document.querySelector("#handsContainer");
+const rock = document.querySelector("#rock")
+const paper = document.querySelector("#paper")
+const scissors = document.querySelector("#scissors")
 
 
+handsContainer.addEventListener("mouseover", (event) => {
+    if (event.target.className == "hands") {
+        event.target.style.backgroundColor = "rgb(255, 255, 255)";
+    }
+})
+
+handsContainer.addEventListener("mouseout", (event) => {
+    if (event.target.className == "hands") {
+        event.target.style.backgroundColor = "rgb(229, 236, 255)";
+    }
+})
+
+
+
+// Returns computer choice of hand
 function getComputerChoice() {
 
     //Get random number between 1 and 3
@@ -18,18 +35,52 @@ function getComputerChoice() {
             return "paper";
             break;
         case 3:
-            return "scissor";
+            return "scissors";
             break;
     }
     
 }
 
 // Function for getting human choice
-function getHumanChoice() {
-    return prompt("Rock-Paper-Scissor.. GO!").toLowerCase();
+
+handsContainer.addEventListener("click", (event) => {
+    let humanChoice = ""
+    switch(event.target) {
+        case(rock):
+            humanChoice = "rock";
+            break;
+        case(paper):
+            humanChoice ="paper";
+            break;
+        case(scissors):
+            humanChoice = "scissors";
+            break;
+    }
+    let computerChoice = getComputerChoice();
+    let result = playRound(humanChoice,computerChoice);
+    let resultMessage = getRoundMessage(humanChoice, computerChoice, result);
+
+    showResult(resultMessage);
+
+})
+
+function showResult(message) {
+    let resultPara = document.querySelector(".result");
+
+    if (!resultPara) {
+        resultPara = document.createElement("p");
+        resultPara.className = "result"
+        resultPara.style.color = "white";
+        resultPara.textContent = message;
+        container.appendChild(resultPara);
+    } else {
+        resultPara.textContent = message;
+        
+    }
 }
 
-// Function for playing one round
+
+// Returns round result (win/tie/lose) 
 function playRound(humanChoice, computerChoice) {
     let roundResult = ""
 
@@ -42,7 +93,7 @@ function playRound(humanChoice, computerChoice) {
             case "paper":
                 roundResult = "lose";
                 break;
-            case "scissor":
+            case "scissors":
                 roundResult = "win";
                 break;     
         }
@@ -54,11 +105,11 @@ function playRound(humanChoice, computerChoice) {
             case "paper":
                 roundResult = "tie";
                 break;
-            case "scissor":
+            case "scissors":
                 roundResult = "lose";
                 break;                 
         }
-    } else if (humanChoice === "scissor") {
+    } else if (humanChoice === "scissors") {
         switch (computerChoice) {
             case "rock":
                 roundResult = "lose";
@@ -66,59 +117,38 @@ function playRound(humanChoice, computerChoice) {
             case "paper":
                 roundResult = "win";
                 break;
-            case "scissor":
+            case "scissors":
                 roundResult = "tie";
                 break;  
         }
     }
 
-    // SHOWS result of the round in console
-    switch (roundResult) {
-        case "win":
-            console.log(`You've won! ${humanChoice} beats ${computerChoice}.`);
-            console.log(`Your choice: ${humanChoice}`);
-            console.log(`Computer's choice: ${computerChoice}`);
-            break;
-        case "lose":
-            console.log(`You've lost! ${computerChoice} beats ${humanChoice}.`);
-            console.log(`Your choice: ${humanChoice}`);
-            console.log(`Computer's choice: ${computerChoice}`);
-            break;
-        case "tie":
-            console.log(`It's a tie!`);
-            console.log(`Your choice: ${humanChoice}`);
-            console.log(`Computer's choice: ${computerChoice}`);
-            break;
-    }
-
     return roundResult;
 }
 
-// Shows the result of the game in console
-function showGameResult(humanScore, computerScore) {
-    if (humanScore > computerScore) {
-        console.log("You've won the game!");
-        console.log(`Your points: ${humanScore}`);
-        console.log(`Computer's points: ${computerScore}`);
-    } else if (humanScore === computerScore) {
-        console.log("It's a tie!");
-        console.log(`Your points: ${humanScore}`);
-        console.log(`Computer's points: ${computerScore}`);
-    } else {
-        console.log("You've lost the game!");
-        console.log(`Your points: ${humanScore}`);
-        console.log(`Computer's points: ${computerScore}`);
+    // Returns the result message of the current round
+function getRoundMessage(humanChoice, computerChoice, roundResult) {
+    switch (roundResult) {
+        case "win":
+            return `You've won! ${humanChoice} beats ${computerChoice}.`;
+            break;
+        case "lose":
+            return `You've lost! ${computerChoice} beats ${humanChoice}.`;
+            break;
+        case "tie":
+            return `It's a tie!`;
+            break;
     }
 }
 
 // Plays a whole game (5 rounds)
-function playGame() {
+function playGame(humanChoice, computerChoice) {
     let humanScore = 0;
     let computerScore = 0;
 
 
     for (let i = 0; i < 5; i++){
-        let roundResult = playRound(getHumanChoice(), getComputerChoice());
+        let roundResult = playRound(humanChoice, computerChoice);
         if (roundResult === "win") {
             ++humanScore;
         } else if (roundResult === "lose") {
@@ -126,10 +156,8 @@ function playGame() {
         } 
     }
 
-    showGameResult(humanScore, computerScore);
+   // showGameResult(humanScore, computerScore);
 
 }
 
 playGame();
-
-Array.map()
