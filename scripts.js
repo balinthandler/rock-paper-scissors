@@ -132,3 +132,4 @@ function playGame() {
 
 playGame();
 
+Array.map()
